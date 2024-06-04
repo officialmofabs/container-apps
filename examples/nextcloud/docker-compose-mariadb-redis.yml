@@ -1,57 +1,74 @@
 services:
-  
+
   nextcloud-db:
-    image: mariadb
+    image: mariadb:lts
     container_name: nextcloud-db
     hostname: nextcloud-db
     command: --transaction-isolation=READ-COMMITTED --innodb_read_only_compressed=OFF
     restart: unless-stopped
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
       - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/nextcloud/database:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=test #SQL root Passwort eingeben
-      - MYSQL_PASSWORD=nextcloud #SQL Benutzer Passwort eingeben
-      - MYSQL_DATABASE=nextcloud #Datenbank Name
-      - MYSQL_USER=nextcloud #SQL Nutzername
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-nextcloud}
+      - MYSQL_USER=${MYSQL_USER:-nextcloud}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-nextcloud}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-nextcloud-root-pw}
       - MYSQL_INITDB_SKIP_TZINFO=1
       - MARIADB_AUTO_UPGRADE=1
-  
+      - PUID=${MYSQL_PUID:-1000}
+      - PGID=${MYSQL_PGID:-1000}
+      - TZ=${MSQL_TZ:-Europe/Berlin}
+    #networks:
+    #  - proxy
+
   nextcloud-redis:
     image: redis:alpine
     container_name: nextcloud-redis
     hostname: nextcloud-redis
     restart: unless-stopped
-    command: redis-server --requirepass nextcloud # Redis Passwort eingeben
-  
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --requirepass "$${REDIS_PASSWORD:-nextcloud}"
+    #networks:
+    #  - proxy
+
   nextcloud-app:
-    image: nextcloud
+    image: nextcloud:29-apache
     container_name: nextcloud-app
     hostname: nextcloud-app
-    user: 1000:1000
     restart: unless-stopped
+    expose:
+      - 80/tcp
     ports:
       - 8080:80
     depends_on:
       - nextcloud-db
       - nextcloud-redis
     environment:
-        TRUSTED_PROXIES: 172.18.0.2/16
-        OVERWRITEPROTOCOL: https
-        OVERWRITECLIURL: https://cloud.example.com # pls change
-        OVERWRITEHOST: cloud.example.com # pls change
-        REDIS_HOST: nextcloud-redis
-        REDIS_HOST_PASSWORD: nextcloud # Redis Passwort von oben wieder eingeben
+      - NEXTCLOUD_ADMIN_USER=${NC_ADMIN_USER:-admin}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NC_ADMIN_USER_PASSWORD:-adminpass}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${NC_TRUSTED_DOMAINS:-cloud.example.com}
+      - TRUSTED_PROXIES=${NC_TRUSTEDPROXIES:-172.16.0.0/24}
+      #- OVERWRITEPROTOCOL=${NC_OVERWRITEPROTOCOL:-http}
+      #- OVERWRITECLIURL=${NC_OVERWRITECLIURL:-http://127.0.0.1:8080}
+      #- OVERWRITEHOST=${NC_OVERWRITEHOST:-127.0.0.1:8080}
+      - MYSQL_HOST=${MYSQL_HOST:-nextcloud-db}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-nextcloud}
+      - MYSQL_USER=${MYSQL_USER:-nextcloud}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-nextcloud}
+      - REDIS_HOST=${REDIS_HOST:-nextcloud-redis}
+      - REDIS_HOST_PASSWORD=${REDIS_PASSWORD:-nextcloud}
     volumes:
       - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/nextcloud/data:/var/www/html/data
       - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/nextcloud/app:/var/www/html
+    #networks:
+    #  - proxy
     #labels:
     #  - traefik.enable=true
     #  - traefik.http.routers.nextcloud.rule=(Host(`cloud.example.com`)) # pls change
     #  - traefik.http.services.nextcloud.loadbalancer.server.port=80
-    #  - traefik.http.services.nextcloud.loadbalancer.server.scheme=https
-    #  - traefik.http.services.nextcloud.loadbalancer.serverstransport=insecureTransport@file    
+    #  - traefik.http.routers.nextcloud.middlewares=local-ipwhitelist@file,authelia@docker
     #  - traefik.docker.network=proxy
     #  - traefik.http.middlewares.nextcloud-dav.replacepathregex.regex=^/.well-known/ca(l|rd)dav
     #  - traefik.http.middlewares.nextcloud-dav.replacepathregex.replacement=/remote.php/dav/
@@ -59,5 +76,7 @@ services:
     #  - traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=50000000 # only necessary for enabled file uploads
     #  - traefik.http.middlewares.limit.buffering.memRequestBodyBytes=50000000 # only necessary for enabled file uploads
     #  - traefik.http.middlewares.limit.buffering.memResponseBodyBytes=50000000 # only necessary for enabled file uploads
-    #  # Part for local lan services only
-    #  #- traefik.http.routers.privatebin.middlewares=basic-auth@file,local-ipwhitelist@file,security-headers@file
+
+#networks:
+#  proxy:
+#    external: true

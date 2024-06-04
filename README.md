@@ -61,6 +61,7 @@ docker compose up
 - [Games and Control Panels](#games-and-control-servers)
 - [Genealogy](#genealogy)
 - [Identity Management - Single Sign-On (SSO) & LDAP](#identity-management---single-sign-on-sso--ldap)
+- [LLM & AI](#large-language-models--ai)
 - [Miscellaneous](#miscellaneous)
 - [Money, Budgeting & Management](#money-budgeting--management)
 - [Note-taking & Editors](#note-taking--editors)
@@ -122,6 +123,15 @@ A [proxy](https://en.wikipedia.org/wiki/Proxy_server) is a server application th
 - [Keycloak](https://github.com/keycloak/keycloak-containers/tree/main/docker-compose-examples) - Keycloak is an open-source Identity and Access Management (IAM) solution for modern applications and services.
 - [lldap](examples/lldap) - lldap is a lightweight authentication server that provides an opinionated, simplified LDAP interface for authentication. It integrates with many backends, from KeyCloak to Authelia to Nextcloud and more.
 
+### Large Language Models & AI
+
+**[`^        back to top        ^`](#-project-list)**
+
+A [Large Language Model (LLM)](https://en.wikipedia.org/wiki/Large_language_model) is a language model notable for its ability to achieve general-purpose language generation and other natural language processing tasks such as classification. LLMs can be used for text generation, a form of generative [AI](https://en.wikipedia.org/wiki/Artificial_intelligence), by taking an input text and repeatedly predicting the next token or word.
+
+- [Ollama + Open WebUI](examples/ollama-ui) - Get up and running with Llama 3, Mistral, Gemma, and other large language models using Ollama. Using an interactive, user-friendly WebUI via Open WebUI (formerly known as Ollama WebUI).
+- [Serge](examples/serge) - A web interface for chatting with Alpaca through llama.cpp. Fully dockerized, with an easy to use API.
+
 ### Virtual Private Network (VPN) & Remote Access
 
 **[`^        back to top        ^`](#-project-list)**
@@ -131,6 +141,7 @@ A [VPN](https://en.wikipedia.org/wiki/Virtual_private_network) is a mechanism fo
 - [wg-easy](examples/wg-easy) - The easiest way to install & manage WireGuard on any Linux host. All-in-one deployment of a WireGuard VPN network service + web management UI.
 - [WireGuard](examples/wireguard) - WireGuard by Linuxserver.io is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography.
 - [IPSec VPN Server](examples/ipsec-vpn-server) - Docker image to run an IPsec VPN server, with IPsec/L2TP, Cisco IPsec and IKEv2.
+- [OpenVPN-AS](examples/openvpn) - OpenVPN Access Server delivers an enterprise VPN solution for businesses of all sizes, providing a securely encrypted connection to private networks over unsecured public internet.
 - [Firezone](examples/firezone) - Self-hosted secure remote access gateway that supports the WireGuard protocol. It offers a Web GUI, 1-line install script, multi-factor auth (MFA), and SSO.
 - ~~[Netbird](https://github.com/netbirdio/netbird)~~ - Quickly connect your computers, servers, cloud instances, and IoT devices into a secure private network. No configuration required.
 - [Headscale](examples/headscale) - An open source, self-hosted implementation of the Tailscale control server.
@@ -180,7 +191,6 @@ Tools and software for [software project management](https://en.wikipedia.org/wi
 - [Goaccess](examples/nginx-proxy-manager-goaccess) - Real-time web log analyzer and interactive viewer that visualizes various logs of popular reverse proxies such as Nginx, Nginx Proxy Manager and Traefik.
 - [WatchYourLAN](examples/watchyourlan) - Lightweight network IP scanner with web GUI.
 - [Watchtower](examples/watchtower) - A container-based solution for automating Docker container base image updates.
-- [dockcheck-web](examples/dockcheck-web) - A webpage showing available image updates for your running containers.
 - [Unify Network Application](examples/unify-network-application) - The Unifi-network-application software is a powerful, enterprise wireless software engine ideal for high-density client deployments requiring low latency and high uptime performance.
 - [UpSnap](examples/upsnap) - A simple wake on lan app written with SvelteKit, Go, PocketBase and nmap.
 
@@ -235,6 +245,7 @@ Digital [archiving](https://en.wikipedia.org/wiki/Archival_science) and [preserv
 
 - [Archivebox](examples/archivebox) - ArchiveBox is a powerful, self-hosted internet archiving solution to collect, save, and view websites offline.
 - [Shiori](examples/shiori) - Simple bookmark manager and website archiver built with Go.
+- [Readeck](examples/readeck) - Readeck is a simple web application that lets you save the precious readable content of web pages you like and want to keep forever.
 
 ### Document Management
 
@@ -245,6 +256,7 @@ A [document management system](https://en.wikipedia.org/wiki/Document_management
 - [Paperless NGX](examples/paperless-ngx) - A community-supported supercharged version of paperless: scan, index and archive all your physical documents.
 - [Papermerge](examples/papermerge) - Free and open source document management system with OCR designed for scanned documents, digital archives, pdf, tiff, jpeg.
 - [DocuSeal](examples/docuseal) - Create, fill, and sign digital documents (alternative to DocuSign).
+- [Koillection](examples/koillection) - Koillection is a self-hosted service allowing users to manage any kind of collections.
 
 ### Pastebins
 
@@ -391,7 +403,7 @@ A [wiki](https://en.wikipedia.org/wiki/Wiki) is a publication collaboratively ed
 [Genealogy software](https://en.wikipedia.org/wiki/Genealogy_software) used to record, organize, and publish genealogical data.
 
 - [webtrees](examples/webtrees) - webtrees is the web's leading online collaborative genealogy application. It allows you to view and edit your genealogy on your selfhosted website.
-- [Gramps-Web](examples/gramps-web) - Gramps Web is a web app for collaborative genealogy. It is based on and interoperable with Gramps, the leading open source genealogy desktop application.
+- [Gramps-Web](examples/gramps) - Gramps Web is a web app for collaborative genealogy. It is based on and interoperable with Gramps, the leading open source genealogy desktop application.
 
 ### Asset Management
 
@@ -401,6 +413,7 @@ A [wiki](https://en.wikipedia.org/wiki/Wiki) is a publication collaboratively ed
 
 - [Domainmod](examples/domainmod) - DomainMOD is an open source application used to manage your domains and other internet assets in a central location.
 - [Snipe-IT](examples/snipe-it) - Snipe-IT is a free, open source IT asset management system written in PHP.
+- [Koillection](examples/koillection) - Koillection is a self-hosted service allowing users to manage any kind of collections.
 
 ### Request Bins
 
