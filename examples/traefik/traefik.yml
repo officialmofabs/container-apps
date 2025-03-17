@@ -12,13 +12,31 @@ api:
 log:
   level: INFO
 
+# crowdsec bouncer
+#experimental:
+#  plugins:
+#    bouncer:
+#      moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
+#      version: v1.4.1
+
+#metrics:
+#  influxDB2:
+#     address: http://influxdb2:8086
+#     token: my-secure-token-secret
+#     org: influx-org
+#     bucket: influx-bucket
+#     addEntryPointsLabels: true
+#     addRoutersLabels: true
+#     addServicesLabels: true
+#     pushInterval: 60s  
+
 # Configuring Multiple Filters
 accessLog:
   filePath: "/logs/traefik.log"
   format: json
   filters:
     statusCodes:
-    #  - "200" # log successful http requests
+      - "200-299" # log successful http requests
       - "400-599" # log failed http requests
     #retryAttempts: true
     #minDuration: "10ms"
@@ -41,7 +59,7 @@ entryPoints:
     address: :80
     forwardedHeaders:
       trustedIPs: &trustedIps
-        # Start of Clouflare public IP list for HTTP requests, remove this if you don't use it; https://www.cloudflare.com/de-de/ips/
+        # start of Clouflare public IP list for HTTP requests, remove this if you don't use it; https://www.cloudflare.com/de-de/ips/
         - 103.21.244.0/22
         - 103.22.200.0/22
         - 103.31.4.0/22
@@ -64,7 +82,7 @@ entryPoints:
         - 2405:8100::/32
         - 2a06:98c0::/29
         - 2c0f:f248::/32
-        # End of Cloudlare public IP list
+        # end of Cloudlare public IP list
     http:
       redirections:
         entryPoint:
@@ -75,7 +93,7 @@ entryPoints:
   https:
     address: :443
     forwardedHeaders:
-      # Reuse list of Cloudflare Trusted IP's above for HTTPS requests
+      # reuse list of Cloudflare Trusted IP's above for HTTPS requests
       trustedIPs: *trustedIps
     # enable HTTP3 QUIC via UDP/443
     #http3:
@@ -91,6 +109,7 @@ entryPoints:
       middlewares:
         - security-headers@file # reference to a dynamic middleware for setting http security headers per default
         - rate-limit@file # reference to a dynamic middleware for enabling rate limiting per default
+        #- crowdsec@file # reference to a dynamic middleware for enabling crowdsec bouncer
 
 providers:
   providersThrottleDuration: 2s
@@ -103,8 +122,8 @@ providers:
   # Docker provider for connecting all apps that are inside of the docker network
   docker:
     watch: true
-    network: proxy # Add Your Docker Network Name Here
-    # Default host rule to containername.domain.example
+    network: proxy # add Your Docker Network Name Here
+    endpoint: "tcp://socket-proxy:2375" # use socket-proxy for secure access to docker api
     defaultRule: "Host(`{{ index .Labels \"com.docker.compose.service\"}}.example.com`)" # change 'example.com' to your proxy domain
     exposedByDefault: false
 

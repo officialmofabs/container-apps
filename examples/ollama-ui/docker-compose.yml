@@ -5,7 +5,7 @@ services:
     container_name: ollama-ui
     restart: always
     ports:
-      - 8080
+      - 8080:8080 # web ui
     expose:
       - 8080
     volumes:
@@ -31,6 +31,13 @@ services:
       - 11434
     volumes:
       - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/ollama/data:/root/.ollama
+    #deploy:
+    #  resources:
+    #    reservations:
+    #      devices:
+    #        - driver: nvidia
+    #          count: all
+    #          capabilities: [gpu]      
     #networks:
     #  - proxy
 

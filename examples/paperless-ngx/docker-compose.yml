@@ -1,17 +1,16 @@
-version: "3.4"
-
 services:
+
   broker:
-    image: docker.io/library/redis:7
+    image: docker.io/library/redis:7-alpine
     container_name: paperless-ngx-redis
     restart: unless-stopped
     volumes:
       - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/paperless-ngx/redis:/data
     #networks:
-    #  - proxy      
+    #  - proxy
 
   db:
-    image: docker.io/library/postgres:13
+    image: docker.io/library/postgres:16-alpine
     container_name: paperless-ngx-db
     restart: unless-stopped
     volumes:
@@ -21,7 +20,7 @@ services:
       POSTGRES_USER: paperless
       POSTGRES_PASSWORD: paperless
     #networks:
-    #  - proxy      
+    #  - proxy
 
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
@@ -32,6 +31,8 @@ services:
       - broker
     ports:
       - "8910:8000"
+    expose:
+      - 8000
     healthcheck:
       test: ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
       interval: 30s
@@ -66,11 +67,11 @@ services:
     #  - traefik.http.services.paperless-ngx.loadbalancer.server.port=8000
     #  - traefik.docker.network=proxy
     #  # Part for optional traefik middlewares
-    #  - traefik.http.routers.paperless-ngx.middlewares=local-ipwhitelist@file,basic-auth@file
-    #  - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=50000000 # optional, only necessary for enabled file uploads
-    #  - traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=50000000 # optional, only necessary for enabled file uploads
-    #  - traefik.http.middlewares.limit.buffering.memRequestBodyBytes=50000000 # optional, only necessary for enabled file uploads
-    #  - traefik.http.middlewares.limit.buffering.memResponseBodyBytes=50000000 # optional, only necessary for enabled file uploads
+    #  - traefik.http.routers.paperless-ngx.middlewares=limit-paperless
+    #  - traefik.http.middlewares.limit-paperless.buffering.maxRequestBodyBytes=50000000 # optional, only necessary for enabled file uploads
+    #  - traefik.http.middlewares.limit-paperless.buffering.maxResponseBodyBytes=50000000 # optional, only necessary for enabled file uploads
+    #  - traefik.http.middlewares.limit-paperless.buffering.memRequestBodyBytes=50000000 # optional, only necessary for enabled file uploads
+    #  - traefik.http.middlewares.limit-paperless.buffering.memResponseBodyBytes=50000000 # optional, only necessary for enabled file uploads
     
 #networks:
 #  proxy:
