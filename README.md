@@ -54,7 +54,7 @@ docker compose up
 - [Automation and Monitoring](#automation-and-monitoring)
 - [Backups](#backups)
 - [Blogging Platforms and Homepages](#blogging-platforms-and-homepages)
-- [Communication - Social Networks, Forums and Video Conferencing](#communication---social-networks-forums-and-video-conferencing)
+- [Communication - Social Networks, Webclients, Forums and Video Conferencing](#communication---social-networks-webclients-forums-and-video-conferencing)
 - [Document Management](#document-management)
 - [Domain Name Service (DNS)](#domain-name-service-dns)
 - [E-commerce](#e-commerce)
@@ -157,7 +157,7 @@ A [VPN](https://en.wikipedia.org/wiki/Virtual_private_network) is a mechanism fo
 - [AdGuard Home](examples/adguard-home) - AdGuard Home is a network-wide software for blocking ads and tracking.
 - [AdGuard Home Sync](examples/adguard-home-sync) - Synchronize AdGuardHome config to replica instances.
 - [Technitium DNS](examples/technitium-dns) - An open source authoritative as well as recursive DNS server that can be used for self hosting a DNS server for privacy & security.
-- [Pihole](examples/pihole) - Pi-hole is a Linux network-level advertisement and Internet tracker blocking application which acts as a DNS sinkhole and optionally a DHCP server, intended for use on a private network.
+- [Pi-hole](examples/pi-hole) - Pi-hole is a Linux network-level advertisement and Internet tracker blocking application which acts as a DNS sinkhole and optionally a DHCP server, intended for use on a private network.
 - [Cloudflare DDNS](examples/cloudflare-ddns) - Dynamic DNS (DDNS) is a service that keeps the DNS updated with a web property's correct IP address, even if that IP address is constantly being updated.
 
 ### Software Development - Project Management, DevOps
@@ -331,17 +331,18 @@ A [blog](https://en.wikipedia.org/wiki/Blog) is a discussion or informational we
 - [WordPress](examples/wordpress) - WordPress is a free and open-source content management system written in hypertext preprocessor language and paired with a MySQL or MariaDB database with supported HTTPS.
 - [Nginx + PHP](examples/nginx-php) - Nginx is a web server that can also be used as a reverse proxy, load balancer, mail proxy and HTTP cache. Combined with PHP, a general-purpose scripting language geared toward web development, server-side functions can be implemented for the webs.
 
-### Communication - Social Networks, Forums and Video Conferencing
+### Communication - Social Networks, Webclients, Forums and Video Conferencing
 
 **[`^        back to top        ^`](#-project-list)**
 
-[Social Networking](https://en.wikipedia.org/wiki/Social_networking_service) and [Forum](https://en.wikipedia.org/wiki/Internet_forum) software.
+[Social Networking](https://en.wikipedia.org/wiki/Social_networking_service), [Webmail clients](https://en.wikipedia.org/wiki/Webmail), [Video Conferencing](https://en.wikipedia.org/wiki/Web_conferencing) and [Forum](https://en.wikipedia.org/wiki/Internet_forum) software.
 
 - [Rocket.Chat](examples/rocketchat) - Rocket.Chat is an open-source fully customizable communications platform developed in JavaScript for organizations with high standards of data protection.
 - [Mattermost](examples/mattermost) - Mattermost is an open source platform for secure collaboration across the entire software development lifecycle.
 - [Answer](examples/answer) - An open-source knowledge-based community software. You can use it quickly to build Q&A community for your products, customers, teams, and more.
 - [Mirotalk P2P](examples/mirotalk) - Simple, Secure, Fast Real-Time Video Conferences Up to 4k and 60fps, compatible with all browsers and platforms.
 - [Reactive-Resume](examples/rxresume) - A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever.
+- [Roundcube](examples/roundcube) - Roundcube Webmail is a browser-based multilingual IMAP client with an application-like user interface. It provides full functionality you expect from an email client, including MIME support, address book, folder management, message searching and spell checking.
 
 ### E-commerce
 

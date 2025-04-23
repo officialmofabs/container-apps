@@ -27,7 +27,8 @@ services:
     #  - traefik.http.services.immich.loadbalancer.server.port=2283
     #  - traefik.docker.network=proxy
     #  # Part for local lan services only
-    #  - traefik.http.routers.immich.middlewares=limit-immich
+    #  - traefik.http.routers.immich-swagger.rule=Host(`immich.example.com`) && PathPrefix(`/doc`)
+    #  - traefik.http.routers.immich-swagger.middlewares=local-ipwhitelist@file
 
   immich-machine-learning:
     image: altran1502/immich-machine-learning:${IMMICH_VERSION:-release}
@@ -63,6 +64,8 @@ services:
       PG_DATA: /var/lib/postgresql/data
     volumes:
       - ${DB_DATABASE_LOCATION}:/var/lib/postgresql/data
+    command: >-
+      postgres -c shared_preload_libraries=vectors.so -c 'search_path="$$user", public, vectors' -c logging_collector=on -c max_wal_size=2GB -c shared_buffers=512MB -c wal_compression=on      
     restart: unless-stopped
     networks:
       - immich-internal
